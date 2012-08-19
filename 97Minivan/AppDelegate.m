@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import <Socialize/Socialize.h>
+
 
 @implementation AppDelegate
 
@@ -15,6 +17,11 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    // set the socialize api key and secret, register your app here: http://www.getsocialize.com/apps/
+    [Socialize storeConsumerKey:@"296ed0ef-a616-4783-bd6c-c3cd8d97b7da"];
+    [Socialize storeConsumerSecret:@"5dbb9a6e-0ec4-4e2b-957b-12370666d463"];
+    
     return YES;
 }
 							
