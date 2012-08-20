@@ -12,6 +12,11 @@
 #import "YRDropdownView.h"
 #import "Reachability.h"
 
+#include <AudioToolbox/AudioQueue.h>
+#include <AudioToolbox/AudioFile.h>
+#include <AudioToolbox/AudioConverter.h>
+#include <AudioToolbox/AudioToolbox.h>
+
 
 @interface ViewController () {
     UIImageView *_anisotropicImageView;
@@ -71,6 +76,11 @@ CGFloat kMovieViewOffsetY = 20.0;
     [minivanPlayer prepareToPlay];
     
     
+    
+    /* Indicate the movie player allows AirPlay movie playback. */
+    minivanPlayer.allowsAirPlay = YES;
+    
+    
     // UI
     
     [DAAnisotropicImage startAnisotropicUpdatesWithHandler:^(UIImage *image) {
@@ -114,7 +124,7 @@ CGFloat kMovieViewOffsetY = 20.0;
     
     self.progressView.startAngle = (3.0*M_PI)/2.0;
 
-    [minivanPlayer stop];
+    //[minivanPlayer stop];
     
     
     // background
@@ -213,7 +223,7 @@ CGFloat kMovieViewOffsetY = 20.0;
     
     if(sender.selected) // Shows the Pause symbol
     {
-        [minivanPlayer stop];
+        [minivanPlayer pause];
         
         minivanPlayer.useApplicationAudioSession = NO;
         
@@ -237,10 +247,12 @@ CGFloat kMovieViewOffsetY = 20.0;
                                                          name:MPMoviePlayerPlaybackDidFinishNotification
                                                        object:minivanPlayer];
             
-            
+            minivanPlayer.controlStyle = MPMovieControlStyleEmbedded;
+
             [minivanPlayer play];
             
             //minivanPlayer.useApplicationAudioSession = YES;
+            
             
             sender.selected = YES;
             [self.player play];
