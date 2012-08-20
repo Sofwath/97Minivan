@@ -134,7 +134,13 @@ CGFloat kMovieViewOffsetY = 20.0;
     [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
     [self becomeFirstResponder];
     
-            
+    AudioSessionAddPropertyListener (
+                                     kAudioSessionProperty_CurrentHardwareOutputVolume ,
+                                     audioVolumeChangeListenerCallback,
+                                     (__bridge void*)_anisotropicSlider
+                                     );
+    
+    
 }
 
 - (BOOL)isDataSourceAvailable
@@ -184,6 +190,10 @@ CGFloat kMovieViewOffsetY = 20.0;
     [self setTwitter:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
+    AudioSessionRemovePropertyListenerWithUserData(
+                                                   kAudioSessionProperty_CurrentHardwareOutputVolume,
+                                                   audioVolumeChangeListenerCallback,
+                                                   (__bridge void*)_anisotropicSlider);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -285,8 +295,19 @@ CGFloat kMovieViewOffsetY = 20.0;
 
 
 - (IBAction)makecomment:(id)sender {
+    //SZEntity *entity = [SZEntity entityWithKey:@"97Minivan" name:@"97Minivan"];
+    //[SZCommentUtils showCommentsListWithViewController:self entity:entity completion:nil];
+    
     SZEntity *entity = [SZEntity entityWithKey:@"97Minivan" name:@"97Minivan"];
-    [SZCommentUtils showCommentsListWithViewController:self entity:entity completion:nil];
+    SZCommentsListViewController *comments = [[SZCommentsListViewController alloc] initWithEntity:entity];
+    comments.completionBlock = ^{
+        
+        // Dismiss however you want here
+        [self dismissModalViewControllerAnimated:NO];
+    };
+    
+    // Present however you want here
+    [self presentModalViewController:comments animated:NO];
 }
 
 
@@ -333,5 +354,49 @@ CGFloat kMovieViewOffsetY = 20.0;
     NSLog(@"%f Volume :",_anisotropicSlider.value);
     [[MPMusicPlayerController applicationMusicPlayer] setVolume:_anisotropicSlider.value];
 };
+
+// AVAudiosession Delegate Method
+- (void)endInterruptionWithFlags:(NSUInteger)flags
+{
+    // When interruption ends - set the apps audio session active again
+    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+    
+    if( flags == AVAudioSessionInterruptionFlags_ShouldResume ) {
+        // Resume playback of radio here!!!
+    }
+}
+
+// Hardware Button Volume Callback
+void audioVolumeChangeListenerCallback (
+                                        void                      *inUserData,
+                                        AudioSessionPropertyID    inID,
+                                        UInt32                    inDataSize,
+                                        const void                *inData)
+{
+    UISlider * volumeSlider = (__bridge UISlider *) inUserData;
+    Float32 newGain = *(Float32 *)inData;
+    [volumeSlider setValue:newGain animated:YES];
+}
+
+// My UISlider Did Change Callback
+- (IBAction)volChanged:(id)sender
+{
+    CGFloat oldVolume = [[MPMusicPlayerController applicationMusicPlayer] volume];
+    CGFloat newVolume = ((UISlider*)sender).value;
+    
+    // Don't change the volume EVERYTIME but in discrete steps.
+    // Performance will say "THANK YOU"
+    if( fabsf(newVolume - oldVolume) > 0.05 || newVolume == 0 || newVolume == 1  )
+        [[MPMusicPlayerController applicationMusicPlayer] setVolume:newVolume];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    // Set the volume slider to the correct value on appearance of the view
+    _anisotropicSlider.value = [[MPMusicPlayerController applicationMusicPlayer] volume];
+}
+
 
 @end

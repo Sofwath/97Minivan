@@ -22,8 +22,60 @@
     [Socialize storeConsumerKey:@"296ed0ef-a616-4783-bd6c-c3cd8d97b7da"];
     [Socialize storeConsumerSecret:@"5dbb9a6e-0ec4-4e2b-957b-12370666d463"];
     
+    // Register for Apple Push Notification Service
+    [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
+    
+    // Handle Socialize notification at launch
+    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (userInfo != nil) {
+        [self handleNotification:userInfo];
+    }
+    
+    // Specify a Socialize entity loader block
+    [Socialize setEntityLoaderBlock:^(UINavigationController *navigationController, id<SocializeEntity>entity) {
+        SampleEntityLoader *entityLoader = [[SampleEntityLoader alloc] initWithEntity:entity];
+        [navigationController pushViewController:entityLoader animated:YES];
+    }];
+    
     return YES;
 }
+
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken
+{
+#if !DEBUG
+    [SZSmartAlertUtils registerDeviceToken:deviceToken];
+#endif
+}
+
+- (void)handleNotification:(NSDictionary*)userInfo {
+    if ([[UIApplication sharedApplication] applicationState] == UIApplicationStateActive) {
+        if ([SZSmartAlertUtils openNotification:userInfo]) {
+            NSLog(@"Socialize handled the notification (background).");
+            
+        } else {
+            NSLog(@"Socialize did not handle the notification (background).");
+            
+        }
+    } else {
+        
+        NSLog(@"Notification received in foreground");
+        
+        // You may want to display an alert or other popup instead of immediately opening the notification here.
+        
+        if ([SZSmartAlertUtils openNotification:userInfo]) {
+            NSLog(@"Socialize handled the notification (foreground).");
+        } else {
+            NSLog(@"Socialize did not handle the notification (foreground).");
+        }
+    }
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
+    
+    // Handle Socialize notification at foreground
+    [self handleNotification:userInfo];
+}
+
 							
 - (void)applicationWillResignActive:(UIApplication *)application
 {
