@@ -223,7 +223,7 @@ CGFloat kMovieViewOffsetY = 20.0;
     
     if(sender.selected) // Shows the Pause symbol
     {
-        [minivanPlayer pause];
+        [minivanPlayer stop]; // pause will do the trick too, but better to stop it.
         
         minivanPlayer.useApplicationAudioSession = NO;
         
@@ -257,6 +257,8 @@ CGFloat kMovieViewOffsetY = 20.0;
             sender.selected = YES;
             [self.player play];
             
+            [self.view insertSubview:minivanPlayer.view atIndex:0];
+
             //[audioSession setActive:YES error:nil];
 
         }
