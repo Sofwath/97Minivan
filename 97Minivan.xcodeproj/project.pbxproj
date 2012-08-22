@@ -236,6 +236,8 @@
 		FF392CAF15DEB43D00627FF7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF392CAE15DEB43D00627FF7 /* CoreLocation.framework */; };
 		FF392CB115DEB44300627FF7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF392CB015DEB44300627FF7 /* MapKit.framework */; };
 		FF392CB315DEB45200627FF7 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF392CB215DEB45100627FF7 /* MessageUI.framework */; };
+		FF5AC11915E550D2006EB1A1 /* minivan57.png in Resources */ = {isa = PBXBuildFile; fileRef = FF5AC11715E550D2006EB1A1 /* minivan57.png */; };
+		FF5AC11A15E550D2006EB1A1 /* minivan114.png in Resources */ = {isa = PBXBuildFile; fileRef = FF5AC11815E550D2006EB1A1 /* minivan114.png */; };
 		FF78C1E815D8D8F300A278EF /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF78C1E715D8D8F300A278EF /* UIKit.framework */; };
 		FF78C1EA15D8D8F300A278EF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF78C1E915D8D8F300A278EF /* Foundation.framework */; };
 		FF78C1EC15D8D8F300A278EF /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FF78C1EB15D8D8F300A278EF /* CoreGraphics.framework */; };
@@ -277,6 +279,8 @@
 		FFC1B0D815DF8FB700DDF33A /* blktopbar.png in Resources */ = {isa = PBXBuildFile; fileRef = FFC1B0D615DF8FB700DDF33A /* blktopbar.png */; };
 		FFC1B0DE15DF9A3000DDF33A /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC1B0DD15DF9A1100DDF33A /* Accounts.framework */; };
 		FFC1B0E015DF9A4E00DDF33A /* Twitter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FFC1B0DF15DF9A3F00DDF33A /* Twitter.framework */; };
+		FFFA006515E5358E00575C52 /* minivan57.png in Resources */ = {isa = PBXBuildFile; fileRef = FFFA006415E5358E00575C52 /* minivan57.png */; };
+		FFFA006715E5360300575C52 /* minivan114.png in Resources */ = {isa = PBXBuildFile; fileRef = FFFA006615E5360200575C52 /* minivan114.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -511,6 +515,8 @@
 		FF392CAE15DEB43D00627FF7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		FF392CB015DEB44300627FF7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		FF392CB215DEB45100627FF7 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		FF5AC11715E550D2006EB1A1 /* minivan57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minivan57.png; sourceTree = "<group>"; };
+		FF5AC11815E550D2006EB1A1 /* minivan114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minivan114.png; sourceTree = "<group>"; };
 		FF78C1E315D8D8F300A278EF /* 97Minivan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 97Minivan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF78C1E715D8D8F300A278EF /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FF78C1E915D8D8F300A278EF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -561,6 +567,8 @@
 		FFC1B0D615DF8FB700DDF33A /* blktopbar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blktopbar.png; sourceTree = "<group>"; };
 		FFC1B0DD15DF9A1100DDF33A /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		FFC1B0DF15DF9A3F00DDF33A /* Twitter.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Twitter.framework; path = System/Library/Frameworks/Twitter.framework; sourceTree = SDKROOT; };
+		FFFA006415E5358E00575C52 /* minivan57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minivan57.png; sourceTree = "<group>"; };
+		FFFA006615E5360200575C52 /* minivan114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = minivan114.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -853,6 +861,8 @@
 		FF78C1D815D8D8F300A278EF = {
 			isa = PBXGroup;
 			children = (
+				FFFA006615E5360200575C52 /* minivan114.png */,
+				FFFA006415E5358E00575C52 /* minivan57.png */,
 				FF051F1615E0247C001D5C48 /* Others */,
 				FF392AF715DEB2ED00627FF7 /* Socialize.embeddedframework */,
 				FF7AC80F15DE8E21004B1954 /* RoundProgress */,
@@ -942,6 +952,8 @@
 		FF7AC7F015DADC1B004B1954 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				FF5AC11715E550D2006EB1A1 /* minivan57.png */,
+				FF5AC11815E550D2006EB1A1 /* minivan114.png */,
 				FF051F1A15E024A1001D5C48 /* dropdown-alert.png */,
 				FF051F1B15E024A1001D5C48 /* dropdown-alert@2x.png */,
 				FFC1B0D515DF8FB700DDF33A /* blktopbar@2x.png */,
@@ -1276,6 +1288,10 @@
 				FF051F1D15E024A1001D5C48 /* dropdown-alert@2x.png in Resources */,
 				FF051F2315E024D1001D5C48 /* bg-yellow.png in Resources */,
 				FF051F2415E024D1001D5C48 /* bg-yellow@2x.png in Resources */,
+				FFFA006515E5358E00575C52 /* minivan57.png in Resources */,
+				FFFA006715E5360300575C52 /* minivan114.png in Resources */,
+				FF5AC11915E550D2006EB1A1 /* minivan57.png in Resources */,
+				FF5AC11A15E550D2006EB1A1 /* minivan114.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1368,8 +1384,8 @@
 		FF78C20215D8D8F300A278EF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Socialize.embeddedframework\"",
@@ -1398,8 +1414,8 @@
 		FF78C20315D8D8F300A278EF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Socialize.embeddedframework\"",

@@ -22,19 +22,14 @@
     UIImageView *_anisotropicImageView;
     UISlider *_anisotropicSlider;
 }
-- (void)twitterAction:(id)sender;
-- (void)facebookAction:(id)sender;
-- (void)mailAction:(id)sender;
+
 @end
 
 @implementation ViewController
+
 @synthesize twitter;
-
-
-
 @synthesize comment;
 @synthesize user;
-
 @synthesize progressView;
 @synthesize playPauseButton;
 @synthesize player;
@@ -80,8 +75,15 @@ CGFloat kMovieViewOffsetY = 20.0;
     /* Indicate the movie player allows AirPlay movie playback. */
     minivanPlayer.allowsAirPlay = YES;
     
+    // Todo: need to implement a custom airplay buttin using the MPVolumeView ??
+
     
     // UI
+    
+    // little tricks
+    
+   
+    
     
     [DAAnisotropicImage startAnisotropicUpdatesWithHandler:^(UIImage *image) {
         [_anisotropicImageView setImage:image];
@@ -337,7 +339,7 @@ CGFloat kMovieViewOffsetY = 20.0;
         
         // Set the initial tweet text. See the framework for additional properties that can be set.
         //[tweetViewController setInitialText:[NSString stringWithFormat:@"%@", Tweet_Message]];
-        [tweetViewController setInitialText:@"Listening to @97Minivan on 97Minivan iPhone App. "];
+        [tweetViewController setInitialText:@"Listening to @97Minivan on 97MiniVan iPhone App. "];
 
         
         [tweetViewController setCompletionHandler:^(TWTweetComposeViewControllerResult result) {
