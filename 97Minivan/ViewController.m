@@ -51,15 +51,22 @@ CGFloat kMovieViewOffsetY = 20.0;
     
     [[UINavigationBar appearance] setBackgroundImage:toolBarIMG forBarMetrics:UIBarMetricsDefault];
     
-    NSURL* resourcePath ; 
-    resourcePath = [NSURL URLWithString:@"http://178.159.0.13:8162"];
+    Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    if (internetStatus != NotReachable) {
+    
+
+        NSURL* resourcePath ;
+        resourcePath = [NSURL URLWithString:@"http://178.159.0.13:8162"];
 
     
-    minivanPlayer = [[MPMoviePlayerController alloc] initWithContentURL:resourcePath];
+        minivanPlayer = [[MPMoviePlayerController alloc] initWithContentURL:resourcePath];
     
+    }
     minivanPlayer.view.frame = self.view.bounds;
     [self.view insertSubview:minivanPlayer.view atIndex:0];
     
+        
    
     minivanPlayer.controlStyle = MPMovieControlStyleEmbedded;
     minivanPlayer.shouldAutoplay = NO;
@@ -244,31 +251,54 @@ CGFloat kMovieViewOffsetY = 20.0;
         NetworkStatus internetStatus = [reachability currentReachabilityStatus];
         if (internetStatus != NotReachable) {
             //my web-dependent code
-            [[NSNotificationCenter defaultCenter] addObserver:self
+            //check if stream is up too
+            NSData *myData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://178.159.0.13:8162"]];
+            
+            NSString *strData = [[NSString alloc]initWithData:myData encoding:NSUTF8StringEncoding];
+
+            NSLog(@"Data from stream : %@ <-- end", strData);  // will contain the string "The resource requested is currently unavailable" if stream is down.
+            NSString *theNewString = [strData substringFromIndex:[strData rangeOfString:@"unavailable"].location];
+            
+            theNewString = [theNewString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+
+            NSLog(@"%@<-- here",theNewString);
+            
+            if ([theNewString isEqualToString: @"unavailable<BR>"]){
+                [YRDropdownView showDropdownInView:self.view.window
+                                             title:@"Network Error"
+                                            detail:@"Sorry, Unable to Access the 97Minivan Streaming Service at the Moment.\n[please note this is possible even if your internet connection is up]"
+                                             image:[UIImage imageNamed:@"dropdown-alert"]
+                                          animated:YES
+                                         hideAfter:6];
+            } else {
+            
+                
+                [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(moviePlayBackDidFinish:)
                                                          name:MPMoviePlayerPlaybackDidFinishNotification
                                                        object:minivanPlayer];
             
-            minivanPlayer.controlStyle = MPMovieControlStyleEmbedded;
+                minivanPlayer.controlStyle = MPMovieControlStyleEmbedded;
 
-            [minivanPlayer play];
+                [minivanPlayer play];
             
-            //minivanPlayer.useApplicationAudioSession = YES;
+                //minivanPlayer.useApplicationAudioSession = YES;
             
             
-            sender.selected = YES;
-            [self.player play];
+                sender.selected = YES;
+                [self.player play];
             
-            [self.view insertSubview:minivanPlayer.view atIndex:0];
+                [self.view insertSubview:minivanPlayer.view atIndex:0];
 
-            //[audioSession setActive:YES error:nil];
+                //[audioSession setActive:YES error:nil];
+            }
 
         }
         else {
             //there-is-no-connection warning
             [YRDropdownView showDropdownInView:self.view.window
-                                         title:@"Warning"
-                                        detail:@"Sorry! Cannot reach the streaming server. Please check your internet (3G/Wi-Fi) connection and try again."
+                                         title:@"Network Error"
+                                        detail:@"Sorry, Please check your internet connection and try again."
                                          image:[UIImage imageNamed:@"dropdown-alert"]
                                       animated:YES
                                      hideAfter:3];
@@ -278,6 +308,8 @@ CGFloat kMovieViewOffsetY = 20.0;
 
     }
 }
+
+
 
 - (void)moviePlayBackDidFinish:(NSNotification*)notification
 {
@@ -349,7 +381,7 @@ CGFloat kMovieViewOffsetY = 20.0;
                     NSLog(@"Tweet cancelled.");
                     break;
                 case TWTweetComposeViewControllerResultDone:
-                    // The tweet was sent.
+                    // The tweet was sent.1
                     NSLog(@"Tweet done.");
                     break;
                 default:

@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <Socialize/Socialize.h>
+#import "Reachability.h"
 
 
 @implementation AppDelegate
@@ -18,25 +19,31 @@
 {
     // Override point for customization after application launch.
     
-    // set the socialize api key and secret, register your app here: http://www.getsocialize.com/apps/
-    [Socialize storeConsumerKey:@"296ed0ef-a616-4783-bd6c-c3cd8d97b7da"];
-    [Socialize storeConsumerSecret:@"5dbb9a6e-0ec4-4e2b-957b-12370666d463"];
+    //Reachability *reachability = [Reachability reachabilityForInternetConnection];
+    //NetworkStatus internetStatus = [reachability currentReachabilityStatus];
+    //if (internetStatus != NotReachable) {
+        
+        // set the socialize api key and secret, register your app here: http://www.getsocialize.com/apps/
+        [Socialize storeConsumerKey:@"296ed0ef-a616-4783-bd6c-c3cd8d97b7da"];
+        [Socialize storeConsumerSecret:@"5dbb9a6e-0ec4-4e2b-957b-12370666d463"];
     
-    // Register for Apple Push Notification Service
-    [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
+        // Register for Apple Push Notification Service
+        [application registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound)];
     
     
-    // Handle Socialize notification at launch
-    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
-    if (userInfo != nil) {
-        [self handleNotification:userInfo];
-    }
+        // Handle Socialize notification at launch
+        NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        if (userInfo != nil) {
+            [self handleNotification:userInfo];
+        }
     
-    // Specify a Socialize entity loader block
-    [Socialize setEntityLoaderBlock:^(UINavigationController *navigationController, id<SocializeEntity>entity) {
+        // Specify a Socialize entity loader block
+        [Socialize setEntityLoaderBlock:^(UINavigationController *navigationController, id<SocializeEntity>entity) {
         SampleEntityLoader *entityLoader = [[SampleEntityLoader alloc] initWithEntity:entity];
         [navigationController pushViewController:entityLoader animated:YES];
-    }];
+        }];
+    
+    //}
     
     return YES;
 }
