@@ -53,16 +53,16 @@ CGFloat kMovieViewOffsetY = 20.0;
     
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     NetworkStatus internetStatus = [reachability currentReachabilityStatus];
-    if (internetStatus != NotReachable) {
-    
-
+    //if (internetStatus != NotReachable) {
+        // app will crash if this is not handled. 
+        
         NSURL* resourcePath ;
         resourcePath = [NSURL URLWithString:@"http://178.159.0.13:8162"];
 
     
         minivanPlayer = [[MPMoviePlayerController alloc] initWithContentURL:resourcePath];
     
-    }
+    //}
     minivanPlayer.view.frame = self.view.bounds;
     [self.view insertSubview:minivanPlayer.view atIndex:0];
     
@@ -250,48 +250,74 @@ CGFloat kMovieViewOffsetY = 20.0;
         Reachability *reachability = [Reachability reachabilityForInternetConnection];
         NetworkStatus internetStatus = [reachability currentReachabilityStatus];
         if (internetStatus != NotReachable) {
-            //my web-dependent code
-            //check if stream is up too
-            NSData *myData = [NSData dataWithContentsOfURL:[NSURL URLWithString:@"http://178.159.0.13:8162"]];
             
-            NSString *strData = [[NSString alloc]initWithData:myData encoding:NSUTF8StringEncoding];
-
-            NSLog(@"Data from stream : %@ <-- end", strData);  // will contain the string "The resource requested is currently unavailable" if stream is down.
-            NSString *theNewString = [strData substringFromIndex:[strData rangeOfString:@"unavailable"].location];
             
-            theNewString = [theNewString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-
-            NSLog(@"%@<-- here",theNewString);
+            // need to check the stream with a timeout dataWithContentsOfURL did not help, replaced with requestWithURL
             
-            if ([theNewString isEqualToString: @"unavailable<BR>"]){
-                [YRDropdownView showDropdownInView:self.view.window
-                                             title:@"Network Error"
-                                            detail:@"Sorry, Unable to Access the 97Minivan Streaming Service at the Moment.\n[please note this is possible even if your internet connection is up]"
-                                             image:[UIImage imageNamed:@"dropdown-alert"]
-                                          animated:YES
-                                         hideAfter:6];
-            } else {
+            // Create the request.
             
+            NSError *error = nil;
+            
+            NSURLRequest *ccRequest =
+            [NSURLRequest requestWithURL:[NSURL
+                                          URLWithString:@"http://178.159.0.13:8162/"]
+                             cachePolicy:NSURLRequestReloadIgnoringCacheData
+                         timeoutInterval:10.0]; // need to make sure cache police is ignored. time out is 10 sec
+            
+            NSURLResponse* response;
+            
+            NSData* myData = [NSURLConnection sendSynchronousRequest:ccRequest
+                                                   returningResponse:&response
+                                                               error:&error];
+            
+            // 1001 is the error code for a connection timeout
+            // It CRASHES below when it tries to determine the error code. so removed the chk. logic works
+            
+            
+                // Create the NSMutableData to hold the received data.
+                // receivedData is an instance variable declared elsewhere.
+                NSString *strData = [[NSString alloc]initWithData:myData encoding:NSUTF8StringEncoding];
                 
-                [[NSNotificationCenter defaultCenter] addObserver:self
+                NSLog(@"Data from stream : %@ <-- end", strData);  // will contain the string "The resource requested is currently unavailable" if stream is down.
+                NSString *theNewString = [strData substringFromIndex:[strData rangeOfString:@"unavailable"].location];
+                
+                theNewString = [theNewString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+                
+                NSLog(@"%@<-- here",theNewString);
+                
+                
+                if ([theNewString isEqualToString: @"unavailable<BR>"]){
+                    [YRDropdownView showDropdownInView:self.view.window
+                                                 title:@"Network Error"
+                                                detail:@"Sorry, Unable to Access the 97Minivan Streaming Service at the Moment.\n\n[please note this is possible even if your internet connection is up]"
+                                                 image:[UIImage imageNamed:@"dropdown-alert"]
+                                              animated:YES
+                                             hideAfter:4];
+                } else {
+                                 
+            
+                    NSLog (@"\nStream ok!\n");
+                
+                    [[NSNotificationCenter defaultCenter] addObserver:self
                                                      selector:@selector(moviePlayBackDidFinish:)
                                                          name:MPMoviePlayerPlaybackDidFinishNotification
                                                        object:minivanPlayer];
             
-                minivanPlayer.controlStyle = MPMovieControlStyleEmbedded;
+                    minivanPlayer.controlStyle = MPMovieControlStyleEmbedded;
 
-                [minivanPlayer play];
+                    [minivanPlayer play];
             
-                //minivanPlayer.useApplicationAudioSession = YES;
+                    //minivanPlayer.useApplicationAudioSession = YES;
             
             
-                sender.selected = YES;
-                [self.player play];
+                    sender.selected = YES;
+                    [self.player play];
             
-                [self.view insertSubview:minivanPlayer.view atIndex:0];
+                    [self.view insertSubview:minivanPlayer.view atIndex:0];
 
-                //[audioSession setActive:YES error:nil];
-            }
+                    //[audioSession setActive:YES error:nil];
+                }
+            //}
 
         }
         else {
@@ -371,7 +397,7 @@ CGFloat kMovieViewOffsetY = 20.0;
         
         // Set the initial tweet text. See the framework for additional properties that can be set.
         //[tweetViewController setInitialText:[NSString stringWithFormat:@"%@", Tweet_Message]];
-        [tweetViewController setInitialText:@"Listening to @97Minivan on 97MiniVan iPhone App. "];
+        [tweetViewController setInitialText:@"Listening to @97Minivan on 97MiniVan iPhone App. https://itunes.apple.com/us/app/97minivan/id555345002?mt=8"];
 
         
         [tweetViewController setCompletionHandler:^(TWTweetComposeViewControllerResult result) {

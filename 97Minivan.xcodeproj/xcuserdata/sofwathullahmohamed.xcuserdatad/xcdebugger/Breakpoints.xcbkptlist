@@ -32,19 +32,6 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "97Minivan/ViewController.m"
-         timestampString = "371721675.107002"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "256"
-         endingLineNumber = "256"
-         landmarkName = "-playPauseButton:"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "97Minivan/ViewController.m"
          timestampString = "371721668.304103"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
